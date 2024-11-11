@@ -1,15 +1,17 @@
 import 'package:http/http.dart' as http;
 
 class WeatherServices {
-  // method to get weather data using the city name
+  // Method to fetch weather data using the city name
   void getWeatherData({required String cityName}) async {
-// do a simple get request
-// get method only takes a url as a object from uri
-
+    // Constructing the URL for the GET request
     Uri url = Uri.parse(
         'http://api.weatherapi.com/v1/current.json?key=19ad2dfcb89f404cbb9210423241111&q=$cityName&aqi=no');
+    
+    // Sending the GET request to the constructed URL
+    // The response is awaited since the call is asynchronous
     http.Response response = await http.get(url);
-    // it is take time so we use async and await
-    // format the data as a response and create a instance so we can use it later
+
+    // The response object now holds the HTTP response data
+    // You can parse it further to extract specific weather information
   }
 }
