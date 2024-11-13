@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class SearchPage extends StatelessWidget {
+  String? cityName;
 
-String? cityName ;
+  SearchPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
