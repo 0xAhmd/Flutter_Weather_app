@@ -23,6 +23,7 @@ class SearchPage extends StatelessWidget {
             keyboardType: TextInputType.text,
             onSubmitted: (val) {
               cityName = val;
+              
             },
             decoration: const InputDecoration(
               contentPadding:
