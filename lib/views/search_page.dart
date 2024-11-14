@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app_using_provider/models/weather_model.dart';
+import 'package:weather_app_using_provider/services/weather_services.dart';
 
 // ignore: must_be_immutable
 class SearchPage extends StatelessWidget {
@@ -21,9 +23,12 @@ class SearchPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: TextField(
             keyboardType: TextInputType.text,
-            onSubmitted: (val) {
+            onSubmitted: (val) async {
               cityName = val;
-              
+              WeatherServices service = WeatherServices();
+              WeatherModel weather =
+                  await service.getWeatherData(cityName: cityName!);
+              print(weather.temp);
             },
             decoration: const InputDecoration(
               contentPadding:

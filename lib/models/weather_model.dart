@@ -14,7 +14,9 @@ class WeatherModel {
   });
 
   factory WeatherModel.fromJson(dynamic data) {
-    var jsonData = data['forecast']['forecastday'][0];
+    var jsonData = data['forecast']['forecastday'][0]['day'];
+
+    print(jsonData['avgtemp_c']);
 
     return WeatherModel(
       temp: jsonData['avgtemp_c'],
@@ -23,5 +25,11 @@ class WeatherModel {
       minTemp: jsonData['mintemp_c'],
       WeatherstateName: jsonData['condition']['text'],
     );
+  }
+
+  get avgtemp_c => null;
+  @override
+  String toString() {
+    return 'WeatherModel{temp: $temp, date: $date, maxTemp: $maxTemp, minTemp: $minTemp, WeatherstateName: $WeatherstateName}';
   }
 }
