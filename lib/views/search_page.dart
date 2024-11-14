@@ -28,7 +28,6 @@ class SearchPage extends StatelessWidget {
               WeatherServices service = WeatherServices();
               WeatherModel weather =
                   await service.getWeatherData(cityName: cityName!);
-              print(weather.temp);
             },
             decoration: const InputDecoration(
               contentPadding:

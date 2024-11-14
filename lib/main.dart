@@ -4,7 +4,7 @@ import 'package:weather_app_using_provider/views/home_page.dart';
 
 void main() {
   runApp(DevicePreview(
-    builder: (context) => const MyApp(),
+    builder: (context) => const MyApp(), 
   ));
 }
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomePage(),
     );
