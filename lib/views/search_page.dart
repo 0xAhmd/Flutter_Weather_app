@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app_using_provider/models/weather_model.dart';
+import 'package:weather_app_using_provider/providers/weather_provider.dart';
 import 'package:weather_app_using_provider/services/weather_services.dart';
 
 // ignore: must_be_immutable
 class SearchPage extends StatelessWidget {
   String? cityName;
+  SearchPage({this.updateUI});
+  VoidCallback? updateUI;
 
-  SearchPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +31,11 @@ class SearchPage extends StatelessWidget {
               WeatherServices service = WeatherServices();
               WeatherModel weather =
                   await service.getWeatherData(cityName: cityName!);
+
+              Provider.of<WeatherProvider>(context, listen: false).WeatherData =
+                  weather;
+
+              Navigator.pop(context);
             },
             decoration: const InputDecoration(
               contentPadding:
