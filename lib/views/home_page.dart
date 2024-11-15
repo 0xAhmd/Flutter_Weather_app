@@ -5,7 +5,6 @@ import 'package:weather_app_using_provider/models/weather_model.dart';
 import 'package:weather_app_using_provider/providers/weather_provider.dart';
 import 'package:weather_app_using_provider/views/search_page.dart';
 
-// ignore: must_be_immutable
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -22,6 +21,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    weatherData =
+        Provider.of<WeatherProvider>(context, listen: true).WeatherData;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -29,23 +31,24 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.only(right: 12.0),
             child: IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return SearchPage(
-                          updateUI: updateUI,
-                        );
-                      },
-                    ),
-                  );
-                },
-                icon: const Icon(
-                  Icons.search,
-                  color: (Colors.white),
-                )),
-          )
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return SearchPage(
+                        updateUI: updateUI,
+                      );
+                    },
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.search,
+                color: Colors.white,
+              ),
+            ),
+          ),
         ],
         backgroundColor: Colors.black,
         title: Text(
@@ -57,7 +60,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: Provider.of<WeatherProvider>(context).WeatherData == null
+      body: weatherData == null
           ? Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -82,17 +85,17 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Spacer(
-                  flex: 6,
-                ),
-                Text("Tokyo",
-                    style: GoogleFonts.roboto(
-                      color: Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    )),
+                const Spacer(flex: 6),
                 Text(
-                  "Last updated: 12:00 AM",
+                  Provider.of<WeatherProvider>(context, listen: true).cityName!,
+                  style: GoogleFonts.roboto(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "Last updated: ${weatherData?.date}",
                   style: GoogleFonts.roboto(
                     color: Colors.black,
                     fontSize: 24,
@@ -103,49 +106,56 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Image.asset(
-                      "Cloudy.png",
+                    SizedBox(
+                      width: 64,
+                      height: 64,
+                      child: Image.asset(
+                        weatherData?.getImage() ?? "assets/images/sun.png",
+                      ),
                     ),
+                    const SizedBox(width: 16),
                     Text(
-                      "30°C",
+                      "${weatherData?.temp.toInt().toString() ?? "N/A"}°C",
                       style: GoogleFonts.roboto(
                         color: Colors.black,
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    const SizedBox(width: 16),
                     Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          "Max: 30°C",
+                          "Max: ${weatherData?.maxTemp.toInt() ?? 'N/A'}°C",
                           style: GoogleFonts.roboto(
                             color: Colors.black,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text("Min: 30°C",
-                            style: GoogleFonts.roboto(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ))
+                        Text(
+                          "Min: ${weatherData?.minTemp.toInt() ?? "N/A"}°C",
+                          style: GoogleFonts.roboto(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
-                    )
+                    ),
                   ],
                 ),
                 const Spacer(),
                 Text(
-                  "Clear",
+                  weatherData?.WeatherstateName ?? "N/A",
                   style: GoogleFonts.roboto(
                     color: Colors.black,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Spacer(
-                  flex: 6,
-                ),
+                const Spacer(flex: 6),
               ],
             ),
     );

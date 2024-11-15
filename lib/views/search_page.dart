@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app_using_provider/models/weather_model.dart';
@@ -7,7 +9,7 @@ import 'package:weather_app_using_provider/services/weather_services.dart';
 // ignore: must_be_immutable
 class SearchPage extends StatelessWidget {
   String? cityName;
-  SearchPage({this.updateUI});
+  SearchPage({super.key, this.updateUI});
   VoidCallback? updateUI;
 
   @override
@@ -29,11 +31,24 @@ class SearchPage extends StatelessWidget {
             onSubmitted: (val) async {
               cityName = val;
               WeatherServices service = WeatherServices();
-              WeatherModel weather =
+              WeatherModel? weather =
                   await service.getWeatherData(cityName: cityName!);
 
-              Provider.of<WeatherProvider>(context, listen: false).WeatherData =
-                  weather;
+              // ignore: unnecessary_null_comparison
+              if (weather != null) {
+                // ignore: duplicate_ignore
+                // ignore: use_build_context_synchronously
+                Provider.of<WeatherProvider>(context, listen: false)
+                    .WeatherData = weather;
+                Provider.of<WeatherProvider>(context, listen: false).cityName =
+                    cityName;
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                      content:
+                           Text("Could not fetch weather data. Try again!")),
+                );
+              }
 
               Navigator.pop(context);
             },

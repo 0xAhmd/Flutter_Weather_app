@@ -13,6 +13,37 @@ class WeatherModel {
     required this.WeatherstateName,
   });
 
+  String getImage() {
+    switch (WeatherstateName.toLowerCase()) {
+      case 'sunny':
+        return 'assets/images/Sunny.png';
+      case 'cloudy':
+      case 'overcast':
+        return 'assets/images/Cloudy.png';
+      case 'rainy':
+      case 'showers':
+      case 'light rain':
+        return 'assets/images/Rainy.png';
+      case 'thunderstorm':
+      case 'stormy':
+        return 'assets/images/thunderstorm.png';
+      case 'snowy':
+      case 'snow':
+      case 'blizzard':
+        return 'assets/images/Snow.png';
+      case 'foggy':
+      case 'mist':
+        return 'assets/images/foggy.png';
+      case 'hazy':
+        return 'assets/images/hazy.png';
+      default:
+        return 'assets/images/Default.png'; // Default image for undefined weather states
+    }
+  }
+
+
+  
+
   factory WeatherModel.fromJson(dynamic data) {
     var jsonData = data['forecast']['forecastday'][0]['day'];
 
